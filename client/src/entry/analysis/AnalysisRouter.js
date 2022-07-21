@@ -54,6 +54,9 @@ import DatasetDetails from "components/Details/DatasetDetails.vue";
 import Libraries from "components/Libraries";
 import { mountVueComponent } from "utils/mountVueComponent";
 
+// InteractiveClientTool addition
+import axios from "axios";
+
 import { newUserDict } from "../../../../static/plugins/welcome_page/new_user/dist/static/topics/index";
 
 /** Routes */
@@ -413,7 +416,7 @@ export const getAnalysisRouter = (Galaxy) => {
         },
 
         /**  */
-        home: function (params) {
+        home: async function (params) {
             // TODO: to router, remove Globals
             // load a tool by id (tool_id) or rerun a previous tool execution (job_id)
             if (params.tool_id || params.job_id) {
@@ -421,6 +424,17 @@ export const getAnalysisRouter = (Galaxy) => {
                     this.page.toolPanel.upload.show();
                     this._loadCenterIframe("welcome");
                 } else {
+		    // Handle rerun of InteractiveClientTool
+                    if (params.job_id && params.id) {
+                        const url = `${getAppRoot()}api/jobs/${params.job_id}/build_for_rerun`;
+                        const {data} = await axios.get(url)
+
+                        if (data.model_class === "InteractiveClientTool") {
+                            const rerun_url = `tool_runner/rerun?id=${params.id}`
+                            this._loadCenterIframe(rerun_url)
+                            return
+                        }
+                    }
                     this._loadToolForm(params);
                 }
             } else {
@@ -436,7 +450,7 @@ export const getAnalysisRouter = (Galaxy) => {
                 }
             }
         },
-
+	
         mountWelcome: async function () {
             const propsData = {
                 newUserDict,

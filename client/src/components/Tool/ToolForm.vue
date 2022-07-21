@@ -256,6 +256,10 @@ export default {
             this.disabled = true;
             return getToolFormData(this.id, this.currentVersion, this.job_id, this.history_id)
                 .then((data) => {
+			     if (data.model_class == 'InteractiveClientTool') {
+			     	console.log(data);
+			     	//galaxy_main.location = Galaxy.root + 'tool_runner/rerun?job_id=' + this.job_id;
+			     }
                     this.formConfig = data;
                     this.remapAllowed = this.job_id && data.job_remap;
                     this.showForm = true;
@@ -263,7 +267,7 @@ export default {
                     if (newVersion) {
                         this.messageVariant = "success";
                         this.messageText = `Now you are using '${data.name}' version ${data.version}, id '${data.id}'.`;
-                    }
+                    }		
                 })
                 .catch((error) => {
                     this.messageVariant = "danger";

@@ -246,6 +246,7 @@ var DatasetListItemEdit = _super.extend(
         /** Render icon-button to re-run the job that created this dataset. */
         _renderRerunButton: function () {
             var creating_job = this.model.get("creating_job");
+            var id = this.model.get("id");
             if (this.model.get("rerunnable")) {
                 return faIconButton({
                     title: _l("Run this job again"),
@@ -259,6 +260,7 @@ var DatasetListItemEdit = _super.extend(
                             ev.preventDefault();
                             Galaxy.router.push("/", {
                                 job_id: creating_job,
+				id
                             });
                         }
                     },

@@ -28,6 +28,13 @@
           -->
           <!-- <param id="docker_run_extra_arguments">&#45;&#45;add-host my-hostname:10.1.2.3</param> -->
 
+	  <!-- User namespaces: -->
+	  <!-- From https://github.com/containers/podman/issues/2898#issuecomment-934295483 -->
+	  <!-- SELinux: -->
+	  <!-- https://github.com/containers/podman/issues/3683#issuecomment-517237050 -->
+	  <param id="docker_run_extra_arguments">--uidmap 1001:0:1 --uidmap 0:1:1001 --gidmap 1001:0:1 --gidmap 0:1:1001 --security-opt label=disable</param>
+	  <!-- until we have implemented the best solution: -->
+	  <!-- https://github.com/containers/podman/issues/3683#issuecomment-517239831 -->
         </destination>
 
         <destination id="docker_dispatch" runner="dynamic">

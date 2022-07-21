@@ -584,6 +584,7 @@ class GalaxyAppConfiguration(BaseAppConfiguration, CommonConfigurationMixin):
         # Collect the umask and primary gid from the environment
         self.umask = os.umask(0o77)  # get the current umask
         os.umask(self.umask)  # can't get w/o set, so set it back
+        self.uid = os.getuid()
         self.gid = os.getgid()  # if running under newgrp(1) we'll need to fix the group of data created on the cluster
 
         self.version_major = VERSION_MAJOR
