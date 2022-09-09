@@ -219,6 +219,7 @@ class XmlToolSource(ToolSource):
         for ep_el in interactivetool_el.findall("entry_point"):
             port = ep_el.find("port")
             assert port is not None, ValueError("A port is required for InteractiveTools")
+            same_port_in_host = string_as_bool(port.attrib.get("same_port_in_host", False))
             port = port.text.strip()
             url = ep_el.find("url")
             if url is not None:
@@ -227,7 +228,8 @@ class XmlToolSource(ToolSource):
             if name:
                 name = name.strip()
             requires_domain = string_as_bool(ep_el.attrib.get("requires_domain", False))
-            rtt.append(dict(port=port, url=url, name=name, requires_domain=requires_domain))
+            rtt.append(dict(port=port, same_port_in_host=same_port_in_host, url=url,
+                            name=name, requires_domain=requires_domain))
         return rtt
 
     def parse_hidden(self):

@@ -21,7 +21,7 @@ from packaging.version import (
 from requests.cookies import RequestsCookieJar
 
 try:
-    from nose.tools import nottest
+    from noset.tools import notteste
 except ImportError:
 
     def nottest(x):
