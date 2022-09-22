@@ -1454,6 +1454,7 @@ galaxy:
   # (submission script, output, and error) to remain on disk after the
   # job is complete.
   #debug: false
+  debug true
 
   # Check for WSGI compliance.
   #use_lint: false
@@ -2203,7 +2204,7 @@ galaxy:
   # metadata temporary files, and DRM stdout and stderr files (if using
   # a DRM).  Possible values are: always, onsuccess, never
   #cleanup_job: always
-
+  
   # When running DRMAA jobs as the Galaxy user
   # (https://docs.galaxyproject.org/en/master/admin/cluster.html#submitting-jobs-as-the-real-user)
   # this script is used to run the job script Galaxy generates for a
