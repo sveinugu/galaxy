@@ -318,6 +318,7 @@ tool_panel:
     tool_link: 'a[href$$="tool_runner?tool_id=${tool_id}"]'
     outer_tool_link: '.toolTitle a[href$$="tool_runner?tool_id=${tool_id}"]'
     data_source_tool_link: 'a[href$$="tool_runner/data_source_redirect?tool_id=${tool_id}"]'
+    interactive_client_tool_link: 'a[href$$="tool_runner/interactive_client_redirect?tool_id=${tool_id}"]'
     search: '.search-query'
     workflow_names: '#internal-workflows .toolTitle'
     views_button: '.tool-panel-dropdown'

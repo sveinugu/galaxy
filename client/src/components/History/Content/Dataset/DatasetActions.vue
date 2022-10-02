@@ -33,13 +33,23 @@
                     <span class="fa fa-info-circle" />
                 </b-button>
                 <b-button
-                    v-if="writable && showRerun"
+                    v-if="writable && showRerun && !isInteractiveClientToolJob"
                     class="rerun-btn px-1"
                     title="Run Job Again"
                     size="sm"
                     variant="link"
                     :href="rerunUrl"
                     @click.prevent.stop="onRerun">
+                    <span class="fa fa-redo" />
+                </b-button>
+                <b-button
+                    v-if="writable && showRerun && isInteractiveClientToolJob"
+                    class="rerun-btn px-1"
+                    title="Run Interactive Tool Job Again"
+                    size="sm"
+                    variant="link"
+                    :href="rerunUrl"
+                    target="galaxy_main">
                     <span class="fa fa-redo" />
                 </b-button>
                 <b-button
@@ -104,6 +114,9 @@ export default {
                 this.item.state != "noPermission"
             );
         },
+        isInteractiveClientToolJob() {
+          return this.item.name.includes("ProTo") && !this.item.name.includes("service")
+        },
         showVisualizations() {
             // TODO: Check hasViz, if visualizations are activated in the config
             return !this.item.purged && ["ok", "failed_metadata", "error"].includes(this.item.state);
@@ -136,6 +149,8 @@ export default {
             this.$router.push(this.itemUrls.showDetails);
         },
         onRerun() {
+            console.log(this.item)
+            // this.$router.push(`/tool_runner/rerun?id=${this.item.id}`);
             this.$router.push(`/root?job_id=${this.item.creating_job}`);
         },
         onVisualize() {
