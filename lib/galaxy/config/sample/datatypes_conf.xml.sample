@@ -178,6 +178,7 @@
       <converter file="bed_gff_or_vcf_to_bigwig_converter.xml" target_datatype="bigwig"/>
       <display file="igb/gtf.xml"/>
     </datatype>
+    <datatype extension="gsuite" type="galaxy.datatypes.tabular:Tabular" display_in_upload="true" subclass="true"/>
     <datatype extension="toolshed.gz" type="galaxy.datatypes.binary:Binary" mimetype="multipart/x-gzip" subclass="true"/>
     <datatype extension="h5" type="galaxy.datatypes.binary:H5" mimetype="application/octet-stream" display_in_upload="true"/>
     <datatype extension="scool" type="galaxy.datatypes.binary:H5" mimetype="application/octet-stream" display_in_upload="true" subclass="true"/>

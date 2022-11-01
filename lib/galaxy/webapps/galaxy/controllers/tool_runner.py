@@ -132,9 +132,6 @@ class ToolRunner(BaseUIController):
             tool = self.__get_tool(job.tool_id)
             if isinstance(tool, InteractiveClientTool):
                 return self.interactive_client_redirect(trans, tool_id=job.tool_id, param_dict=job.get_param_values(self.app))
-        log.debug(f'id={id}, job_id={job_id}, kwd={kwd}')
-        import traceback
-        log.debug(traceback.format_stack)
 
         return trans.response.send_redirect(url_for(controller="root", job_id=job_id))
 

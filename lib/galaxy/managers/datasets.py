@@ -575,6 +575,7 @@ class _UnflattenedMetadataDatasetAssociationSerializer(base.ModelSerializer[T], 
             "metadata": self.serialize_metadata,
             "creating_job": self.serialize_creating_job,
             "rerunnable": self.serialize_rerunnable,
+            "from_interactive_client_tool": self.serialize_from_interactive_client_tool,
             "parent_id": self.serialize_id,
             "designation": lambda item, key, **context: item.designation,
             # 'extended_metadata': self.serialize_extended_metadata,
@@ -673,6 +674,20 @@ class _UnflattenedMetadataDatasetAssociationSerializer(base.ModelSerializer[T], 
         if dataset.creating_job:
             tool = self.app.toolbox.get_tool(dataset.creating_job.tool_id, dataset.creating_job.tool_version)
             if tool and tool.is_workflow_compatible:
+                return True
+        return False
+
+    def serialize_from_interactive_client_tool(self, item, key, **context):
+        """
+        Return True if the tool that created this dataset is an interactive client tool
+        """
+
+        from galaxy.tools import InteractiveClientTool
+
+        dataset = item
+        if dataset.creating_job:
+            tool = self.app.toolbox.get_tool(dataset.creating_job.tool_id, dataset.creating_job.tool_version)
+            if tool and isinstance(tool, InteractiveClientTool):
                 return True
         return False
 

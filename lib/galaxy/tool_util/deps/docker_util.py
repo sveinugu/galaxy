@@ -120,7 +120,10 @@ def build_docker_run_command(
         if not isinstance(guest_ports, list):
             guest_ports = [guest_ports]
         for guest_port in guest_ports:
-            command_parts.extend(["-p", guest_port])
+            if guest_port in ["2222", "21027", "22000"]:
+                command_parts.extend(["-p", f"{guest_port}:{guest_port}"])
+            else:
+                command_parts.extend(["-p", guest_port])
     if container_name:
         command_parts.extend(["--name", container_name])
     for volume in volumes:

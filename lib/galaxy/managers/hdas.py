@@ -373,6 +373,7 @@ class HDASerializer(  # datasets._UnflattenedMetadataDatasetAssociationSerialize
                 "peek",
                 "creating_job",
                 "rerunnable",
+                "from_interactive_client_tool",
                 "uuid",
                 "permissions",
                 "file_name",

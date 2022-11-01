@@ -33,7 +33,7 @@
                     <span class="fa fa-info-circle" />
                 </b-button>
                 <b-button
-                    v-if="writable && showRerun && !isInteractiveClientToolJob"
+                    v-if="writable && showRerun && !fromInteractiveClientTool"
                     class="rerun-btn px-1"
                     title="Run Job Again"
                     size="sm"
@@ -43,7 +43,7 @@
                     <span class="fa fa-redo" />
                 </b-button>
                 <b-button
-                    v-if="writable && showRerun && isInteractiveClientToolJob"
+                    v-if="writable && showRerun && fromInteractiveClientTool"
                     class="rerun-btn px-1"
                     title="Run Interactive Tool Job Again"
                     size="sm"
@@ -114,8 +114,8 @@ export default {
                 this.item.state != "noPermission"
             );
         },
-        isInteractiveClientToolJob() {
-          return this.item.name.includes("ProTo") && !this.item.name.includes("service")
+        fromInteractiveClientTool() {
+          return this.item.from_interactive_client_tool;
         },
         showVisualizations() {
             // TODO: Check hasViz, if visualizations are activated in the config
