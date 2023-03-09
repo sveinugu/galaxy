@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { faBug, faChartBar, faInfoCircle, faLink, faRedo, faSitemap } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+
+import { faBug, faChartBar, faInfoCircle, faLink, faRedo, faSitemap, faKey} from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { BButton } from "bootstrap-vue";
 import { computed } from "vue";
@@ -89,6 +91,18 @@ function onVisualize() {
 function onRerun() {
     router.push(`/?job_id=${props.item.creating_job}`);
 }
+
+function onReEncrypt() {
+    axios.post('http://localhost:8000/reencrypt_header',
+      {
+        encrypted_header: `My encrypted header for dataset ${this.item.name}`,
+        reencrypt_public_key: 'Compute public key'
+      }).then((response) => {alert(response.data)})
+        .catch((e) => {
+            console.error(e);
+        });
+}
+
 </script>
 
 <template>
@@ -165,6 +179,28 @@ function onRerun() {
                     :href="rerunUrl"
                     @click.prevent.stop="onRerun">
                     <FontAwesomeIcon :icon="faRedo" />
+                </BButton>
+
+                <BButton
+                    v-if="writable && showRerun"
+                    v-g-tooltip.hover
+                    class="rerun-btn px-1"
+                    title="Run Job Again"
+                    size="sm"
+                    variant="link"
+                    :href="rerunUrl"
+                    @click.prevent.stop="onRerun">
+                    <FontAwesomeIcon :icon="faRedo" />
+                </BButton>
+
+                <BButton
+                    v-g-tooltip.hover
+                    class="px-1"
+                    title="Re-encrypt Crypt4GH header"
+                    size="sm"
+                    variant="link"
+                    @click.prevent.stop="onReEncrypt">
+                    <FontAwesomeIcon :icon="faKey" />
                 </BButton>
             </div>
         </div>
