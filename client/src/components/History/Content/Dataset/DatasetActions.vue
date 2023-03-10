@@ -93,14 +93,23 @@ function onRerun() {
 }
 
 function onReEncrypt() {
-    axios.post('http://localhost:8000/reencrypt_header',
-      {
-        encrypted_header: `My encrypted header for dataset ${this.item.name}`,
-        reencrypt_public_key: 'Compute public key'
-      }).then((response) => {alert(response.data)})
-        .catch((e) => {
-            console.error(e);
-        });
+    axios.get(
+              `${getAppRoot()}api/datasets/${this.item.id}/display?preview=false`
+          ).then((response) => {
+            axios.post('http://localhost:8000/reencrypt_header',
+                {
+                  encrypted_header: response.data,
+                  reencrypt_public_key: 'Compute public key'
+                }).then((response) => {
+              console.log(response.data)
+            })
+                .catch((e) => {
+                  console.error(e);
+                });
+          })
+              .catch((e) => {
+                console.error(e);
+              });
 }
 
 </script>
