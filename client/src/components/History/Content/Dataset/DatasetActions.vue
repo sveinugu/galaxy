@@ -15,6 +15,7 @@ import { absPath, prependPath } from "@/utils/redirect";
 import type { ItemUrls } from ".";
 
 import DatasetDownload from "@/components/History/Content/Dataset/DatasetDownload.vue";
+import { getAppRoot } from "@/onload/loadConfig";
 
 interface Props {
     item: HDADetailed;
