@@ -45,6 +45,16 @@ const showInfo = computed(() => {
 const showVisualizations = computed(() => {
     return !props.item.purged && ["ok", "failed_metadata", "error"].includes(props.item.state);
 });
+
+const showRecrypt = computed(() => {
+    return (
+        this.item.extension == "c4gh" &&
+        this.item.state != "error" &&
+        this.item.state != "failed_metadata" &&
+        this.item.state != "upload" &&
+        this.item.state != "noPermission"
+    );
+});
 const showRerun = computed(() => {
     return props.item.accessible && props.item.rerunnable && props.item.creating_job && props.item.state != "upload";
 });
@@ -215,6 +225,7 @@ async function onRecrypt() {
                 </BButton>
 
                 <BButton
+                    v-if="showRecrypt"
                     v-g-tooltip.hover
                     class="px-1"
                     title="Recrypt Crypt4GH-encrypted dataset"
