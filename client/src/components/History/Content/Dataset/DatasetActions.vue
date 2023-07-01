@@ -93,7 +93,7 @@ function onRerun() {
     router.push(`/?job_id=${props.item.creating_job}`);
 }
 
-async function onReEncrypt() {
+async function onRecrypt() {
     try {
         let data_response = await axios.get(
             `${getAppRoot()}api/datasets/${this.item.id}/display?preview=false`
@@ -217,10 +217,10 @@ async function onReEncrypt() {
                 <BButton
                     v-g-tooltip.hover
                     class="px-1"
-                    title="Re-encrypt Crypt4GH header"
+                    title="Recrypt Crypt4GH-encrypted dataset"
                     size="sm"
                     variant="link"
-                    @click.prevent.stop="onReEncrypt">
+                    @click.prevent.stop="onRecrypt">
                     <FontAwesomeIcon :icon="faKey" />
                 </BButton>
             </div>
