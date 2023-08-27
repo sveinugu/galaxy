@@ -163,6 +163,7 @@ class InteractiveToolManager:
                 tool_port=entry["port"],
                 entry_url=entry["url"],
                 name=entry["name"],
+                label=entry["label"],
                 requires_domain=entry["requires_domain"],
                 short_token=self.app.config.interactivetools_shorten_url,
             )

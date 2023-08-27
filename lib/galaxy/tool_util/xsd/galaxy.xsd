@@ -370,7 +370,7 @@ to provide access to graphical tools in real-time.
 
 ```xml
 <entry_points>
-  <entry_point name="Example name">
+  <entry_point name="Example name" label="example">
     <port>80</port>
     <url>landing/${template_enabled}/index.html</url>
   </entry_point>
@@ -385,12 +385,17 @@ to provide access to graphical tools in real-time.
     </xs:sequence>
         <xs:attribute name="name" type="xs:string" use="required">
           <xs:annotation>
-            <xs:documentation xml:lang="en">This value defines the name of the entry point.</xs:documentation>
+            <xs:documentation xml:lang="en">The name of the entry point.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
-        <xs:attribute name="requires_domain" type="PermissiveBoolean" default="false">
+        <xs:attribute name="label" type="xs:string" use="optional">
           <xs:annotation>
-            <xs:documentation xml:lang="en">This value declares if domain-based proxying is required. Default is False. Currently only works when True.</xs:documentation>
+            <xs:documentation xml:lang="en">A unique label to identify the entry point. Used by interactive client tools to connect.</xs:documentation>
+          </xs:annotation>
+        </xs:attribute>
+        <xs:attribute name="requires_domain" type="PermissiveBoolean" default="true">
+          <xs:annotation>
+            <xs:documentation xml:lang="en">Whether domain-based proxying is required for the entry point. Default is True.</xs:documentation>
           </xs:annotation>
         </xs:attribute>
   </xs:complexType>

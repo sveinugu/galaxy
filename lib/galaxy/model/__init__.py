@@ -2667,12 +2667,14 @@ class InteractiveToolEntryPoint(Base, Dictifiable, RepresentById):
     deleted = Column(Boolean, default=False)
     created_time = Column(DateTime, default=now)
     modified_time = Column(DateTime, default=now, onupdate=now)
+    label = Column(TEXT)
     job = relationship("Job", back_populates="interactivetool_entry_points", uselist=False)
 
     dict_collection_visible_keys = [
         "id",
         "job_id",
         "name",
+        "label",
         "active",
         "created_time",
         "modified_time",
@@ -2682,6 +2684,7 @@ class InteractiveToolEntryPoint(Base, Dictifiable, RepresentById):
         "id",
         "job_id",
         "name",
+        "label",
         "active",
         "created_time",
         "modified_time",
