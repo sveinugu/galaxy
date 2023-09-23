@@ -87,9 +87,9 @@ export default {
         },
     },
     watch: {
-        toolConfig() {
-            this.onSetError(null);
-        },
+        // toolConfig() {
+        //     this.onSetError(null);
+        // },
         showErrorDialog(showErrorDialog) {
             if (!showErrorDialog) {
                 this.onSetError(null);
