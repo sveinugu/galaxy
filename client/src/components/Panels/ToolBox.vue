@@ -190,7 +190,7 @@ export default {
             if (tool.id === "upload1") {
                 evt.preventDefault();
                 this.openGlobalUploadModal();
-            } else if (tool.form_style === "regular") {
+            } else if (tool.form_style === "regular" || tool.model_class === "InteractiveClientTool") {
                 evt.preventDefault();
                 // encode spaces in tool.id
                 const toolId = tool.id;
