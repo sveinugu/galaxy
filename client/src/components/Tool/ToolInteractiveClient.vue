@@ -14,6 +14,9 @@
             @onSetError="onSetError"
             @updatePreferredObjectStoreId="onUpdatePreferredObjectStoreId">
             <template v-slot:extra-tool-options-items>
+                <b-dropdown-item @click="openClientTool">
+                    <FontAwesomeIcon icon="fa-table-list" /><span v-localize>Open Client tool form</span>
+                </b-dropdown-item>
                 <b-dropdown-item :disabled="!serviceToolExists" @click="openServiceTool">
                     <FontAwesomeIcon icon="fa-wrench" /><span v-localize>Open Service tool</span>
                 </b-dropdown-item>
@@ -427,6 +430,10 @@ export default {
                 }
             }
             return iframeSrc;
+        },
+        openClientTool() {
+            // const { data } = await axios.post(this.serviceToolEntryPointTarget, this.clientToolParams);
+            this.$router.push(`/root?tool_id=${this.toolConfig.id}&tool_version=${this.toolConfig.version}`);
         },
         openServiceTool() {
             this.$router.push(`/root?tool_id=${this.serviceToolId}&tool_version=${this.serviceToolVersion}`);
