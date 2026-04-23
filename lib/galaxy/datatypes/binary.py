@@ -662,7 +662,7 @@ class Crypt4ghEncryptedArchive(Binary):
         try:
             from galaxy.util.hash_util import sha256
 
-            with open(dataset.file_name, "rb") as f:
+            with open(dataset.get_file_name(), "rb") as f:
                 dataset_header = self._read_and_validate_crypt4gh_header(f)
 
             has_crypt4gh_data = self._has_encrypted_data(dataset_header, dataset.get_size())
