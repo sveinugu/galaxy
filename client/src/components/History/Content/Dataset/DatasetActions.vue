@@ -14,7 +14,7 @@ import { absPath, prependPath } from "@/utils/redirect";
 
 import type { ItemUrls } from ".";
 
-import { getGalaxyInstance } from "app";
+import { useHistoryStore } from "@/stores/historyStore";
 import {setAttributes} from "@/components/DatasetInformation/services";
 import DatasetDownload from "@/components/History/Content/Dataset/DatasetDownload.vue";
 import { getAppRoot } from "@/onload/loadConfig";
@@ -34,6 +34,7 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits(["toggleHighlights"]);
 
 const router = useRouter();
+const historyStore = useHistoryStore();
 
 const showDownloads = computed(() => {
     return !props.item.purged && ["ok", "failed_metadata", "error"].includes(props.item.state);
@@ -50,11 +51,11 @@ const showVisualizations = computed(() => {
 
 const showRecrypt = computed(() => {
     return (
-        this.item.extension == "c4gh" &&
-        this.item.state != "error" &&
-        this.item.state != "failed_metadata" &&
-        this.item.state != "upload" &&
-        this.item.state != "noPermission"
+        props.item.extension == "c4gh" &&
+        props.item.state != "error" &&
+        props.item.state != "failed_metadata" &&
+        props.item.state != "upload" &&
+        props.item.state != "noPermission"
     );
 });
 const showRerun = computed(() => {
@@ -108,15 +109,15 @@ function onRerun() {
 async function onRecrypt() {
     try {
         let recryptResponse = await axios.post("https://localhost:61357/recrypt_header", {
-            crypt4gh_header: this.item.metadata_crypt4gh_header,
+            crypt4gh_header: props.item.metadata_crypt4gh_header,
         });
 
-        let copyHdaResponse = await axios.post(`${getAppRoot()}api/histories/${this.item.history_id}/contents/datasets`, {
+        let copyHdaResponse = await axios.post(`${getAppRoot()}api/histories/${props.item.history_id}/contents/datasets`, {
             source: "hda",
-            content: this.item.id,
+            content: props.item.id,
         })
 
-        let editHdaResponse = await axios.put(`${getAppRoot()}api/histories/${this.item.history_id}/contents/datasets/${copyHdaResponse.data.id}`, {
+        let editHdaResponse = await axios.put(`${getAppRoot()}api/histories/${props.item.history_id}/contents/datasets/${copyHdaResponse.data.id}`, {
             tags: ["Recrypted_for_compute", recryptResponse.data.crypt4gh_compute_keypair_id],
             metadata: {
               ...recryptResponse.data
@@ -125,10 +126,7 @@ async function onRecrypt() {
 
         let datatypeDetectResponse = await setAttributes(copyHdaResponse.data.id, {}, "autodetect")
 
-        const Galaxy = getGalaxyInstance();
-        if (Galaxy) {
-          Galaxy.currHistoryPanel.loadCurrentHistory();
-        }
+        historyStore.loadCurrentHistory();
     } catch (err) {
         console.error(JSON.stringify(err, Object.getOwnPropertyNames(err)));
     }
@@ -198,18 +196,6 @@ async function onRecrypt() {
                     variant="link"
                     @click.stop="onHighlight">
                     <FontAwesomeIcon :icon="faSitemap" />
-                </BButton>
-
-                <BButton
-                    v-if="writable && showRerun"
-                    v-g-tooltip.hover
-                    class="rerun-btn px-1"
-                    title="Run Job Again"
-                    size="sm"
-                    variant="link"
-                    :href="rerunUrl"
-                    @click.prevent.stop="onRerun">
-                    <FontAwesomeIcon :icon="faRedo" />
                 </BButton>
 
                 <BButton
